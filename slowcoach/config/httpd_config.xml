@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config>
+<operators>
+    <func name='leak-ssl'>
+        <func-name>SSL_free</func-name>
+    </func>
+</operators>
+</config>

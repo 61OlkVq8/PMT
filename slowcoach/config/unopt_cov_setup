@@ -1,0 +1,15 @@
+runlist = astar,bzip2,gobmk,h264ref,hmmer,libquantum,mcf,omnetpp,sjeng,xalancbmk
+size = ref
+iterations = 1
+tune = base
+output_format = csv
+make_flags = -j32
+OPTIMIZE = -O0
+action=buildsetup
+CC=clang
+CXX=clang++
+EXTRA_CFLAGS=-fprofile-instr-generate -fcoverage-mapping
+EXTRA_CXXFLAGS=-std=c++98 -fprofile-instr-generate -fcoverage-mapping
+EXTRA_LDFLAGS=-fprofile-instr-generate -fcoverage-mapping
+PORTABILITY=-DSPEC_CPU_LINUX
+ext=cov

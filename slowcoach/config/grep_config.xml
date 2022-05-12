@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<config>
+    <operators>
+        <loop-unbreak name="loop-unbreak" />
+        <oblivion name="oblivion">
+            <func-blacklist>
+            </func-blacklist>
+        </oblivion>
+        <redun-op-loop name="loop-sleep-one">
+            <preprocessor>#include &lt;unistd.h&gt;</preprocessor>
+            <op>sleep(1);</op>
+        </redun-op-loop>
+        <redun-op-loop name="loop-zero-or-one-star-1000">
+            <preprocessor>#include &lt;string.h&gt;</preprocessor>
+            <op>for</op>
+            <var>volatile int foo[1000] = { 0 }; volatile int bar = -1; </var>
+            <init>int i = 0</init>
+            <cond>i &lt; 1000</cond>
+            <body>if (i % 2 == 0) bar = i;</body>
+            <inc>i++</inc>
+        </redun-op-loop>
+        <redun-op-loop name="loop-zero-star-one-1000">
+            <preprocessor>#include &lt;string.h&gt;</preprocessor>
+            <op>for</op>
+            <var>volatile int foo[1000] = { 0 }; volatile int bar = -1; </var>
+            <init>int i = 0</init>
+            <cond>i &lt; 1000</cond>
+            <body>if (foo[i] == bar) break;</body>
+            <inc>i++</inc>
+        </redun-op-loop>
+        <redun-op-loop name="loop-one-star-1000">
+            <preprocessor>#include &lt;string.h&gt;</preprocessor>
+            <op>for</op>
+            <var>volatile int foo[1000] = { 0 };</var>
+            <init>int i = 0</init>
+            <cond>i &lt; 1000</cond>
+            <body>foo[i] = i;</body>
+            <inc>i++</inc>
+        </redun-op-loop>
+        <redun-op-decl name="decl-sleep-one">
+            <preprocessor>#include &lt;unistd.h&gt;</preprocessor>
+            <op>sleep(1);</op>
+        </redun-op-decl>
+        <redun-op-decl name="decl-zero-or-one-star-1000">
+            <preprocessor>#include &lt;string.h&gt;</preprocessor>
+            <op>for</op>
+            <var>volatile int foo[1000] = { 0 }; volatile int bar = -1; </var>
+            <init>int i = 0</init>
+            <cond>i &lt; 1000</cond>
+            <body>if (i % 2 == 0) bar = i;</body>
+            <inc>i++</inc>
+        </redun-op-decl>
+        <redun-op-decl name="decl-zero-star-one-1000">
+            <preprocessor>#include &lt;string.h&gt;</preprocessor>
+            <op>for</op>
+            <var>volatile int foo[1000] = { 0 }; volatile int bar = -1; </var>
+            <init>int i = 0</init>
+            <cond>i &lt; 1000</cond>
+            <body>if (foo[i] == bar) break;</body>
+            <inc>i++</inc>
+        </redun-op-decl>
+        <redun-op-decl name="decl-one-star-1000">
+            <preprocessor>#include &lt;string.h&gt;</preprocessor>
+            <op>for</op>
+            <var>int foo;</var>
+            <init>int i = 0</init>
+            <cond>i &lt; 1000</cond>
+            <body>foo = i;</body>
+            <inc>i++</inc>
+        </redun-op-decl>
+        <func name="dfafast">
+            <func-name>dfaisfast</func-name>
+            <value>0</value>
+        </func>
+        <lazy-update name="lazy-subject">
+            <updated-var>subject</updated-var>
+        </lazy-update>
+        <func name="fgrep-icase-avail">
+            <func-name>fgrep_icase_available</func-name>
+            <value>0</value>
+        </func>
+	<fastpath-cond name="always-pcre">
+		<var-name>valid_bytes</var-name>
+		<value>search_offset</value>
+	</fastpath-cond>
+    </operators>
+    <inject-spots>
+    </inject-spots>
+</config>

@@ -1,0 +1,6 @@
+[submodule "mutation-targets/grep"]
+	path = mutation-targets/grep
+	url = https://git.savannah.gnu.org/git/grep.git
+[submodule "lib/gnulib"]
+	path = lib/gnulib
+	url = git://git.sv.gnu.org/gnulib

@@ -1,0 +1,10 @@
+*~
+CMakeCache.txt
+cmake_install.cmake
+CMakeFiles
+Makefile
+*log
+*compile_commands.json
+*mutants
+*__pycache__
+*.pyc

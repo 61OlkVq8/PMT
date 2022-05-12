@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<config>
+    <operators>
+        <redun-op-loop name="loop-sleep-1">
+            <preprocessor>#include &lt;unistd.h&gt;</preprocessor>
+            <op>sleep(1);</op>
+        </redun-op-loop>
+        <redun-op-loop name="loop-one-star-10000">
+            <preprocessor>#include &lt;string.h&gt;</preprocessor>
+            <op>for</op>
+            <var>volatile int foo[10000] = { 0 };</var>
+            <init>int i = 0</init>
+            <cond>i &lt; 10000</cond>
+            <body>foo[i] = i;</body>
+            <inc>i++</inc>
+        </redun-op-loop>
+        <redun-op-loop name="loop-one-star-100000">
+            <preprocessor>#include &lt;string.h&gt;</preprocessor>
+            <op>for</op>
+            <var>volatile int foo[100000] = { 0 };</var>
+            <init>int i = 0</init>
+            <cond>i &lt; 100000</cond>
+            <body>foo[i] = i;</body>
+            <inc>i++</inc>
+        </redun-op-loop>
+        <redun-op-loop name="loop-one-star-1000000">
+            <preprocessor>#include &lt;string.h&gt;</preprocessor>
+            <op>for</op>
+            <var>volatile int foo[1000000] = { 0 };</var>
+            <init>int i = 0</init>
+            <cond>i &lt; 1000000</cond>
+            <body>foo[i] = i;</body>
+            <inc>i++</inc>
+        </redun-op-loop>
+    </operators>
+    <inject-spots>
+    </inject-spots>
+</config>
