@@ -11,8 +11,8 @@ Each mutant is a source file whose matched parts are modified to simulate perfor
 
 The first step is to initialize the project by the `bootstrap` script.
 SlowCoach comes with a docker file which instantiates a docker image providing all necessary tools needed to build the SlowCoach tool and carry out evaluations.
-A simple command `docker build $(SLOWCOACH_PATH)` creates an anonymous image with the development environment ready for use.
-Users can apply their own names or tags into the `docker build` command, e.g., `docker build -t SlowCoach:stable $(SLOWCOACH_PATH)` which creates an image named "SlowCoach" with the "stable" tag.
+A simple command `docker build ${SLOWCOACH_PATH}` creates an anonymous image with the development environment ready for use.
+Users can apply their own names or tags into the `docker build` command, e.g., `docker build -t SlowCoach:stable ${SLOWCOACH_PATH}` which creates an image named "SlowCoach" with the "stable" tag.
 The building process is slow because the clang tool chain is built ad hoc due to the missing rtti information in the official clang/llvm binary.
 Also, the size of the image is quite large due to the "layers" created by the long list of operations in the Dockerfile.
 If experimental features are enabled for docker, i.e.
@@ -23,7 +23,7 @@ If experimental features are enabled for docker, i.e.
 ```
 in `/etc/docker/daemon.json`, the `--squash` option can be applied when building image to remedy that issue, e.g.,
 ```bash
-docker build --squash -t SlowCoach:stable $(SLOWCOACH_PATH)
+docker build --squash -t SlowCoach:stable ${SLOWCOACH_PATH}
 ```
 
 It is recommended to build SlowCoach out of the tree, and as a practice of thumb, Dockerfile does not hardcode to copy all sources into the docker container, but leaves sources to be mounted (bind mounts) into the container.
@@ -74,26 +74,26 @@ Finally, don't forget to `deactive` the virtual environment when `SlowCoach` is 
 For those who are not contended by leaving scripts handling every detail, here's the brief introduction how python script works.
 Naively, the usage could be as simple as:
 ```bash
-cd $(PWD)/SlowCoach_build
+cd ${PWD}/SlowCoach_build
 ./SlowCoach ../SlowCoach/main.cpp
 ```
-And theoretically there should be a `$(PWD)/SlowCoach/main_cpp` folder generated.
+And theoretically there should be a `${PWD}/SlowCoach/main_cpp` folder generated.
 But the mutation won't work because:
 1. The clang frontend in `SlowCoach` needs to know how this file is compiled, with all the arguments passed to the compiler, e.g. all including paths and library paths
 2. The `clang` tooling, on which `SlowCoach` is based, needs extra headers to build the AST.
 The first problem is solved by exporting the _compilation database_, which is intuitively available with `cmake` when specifying `-DCMAKE_EXPORT_COMPILE_COMMANDS=True` when building the target project.
 For GNU compatible projects, the `bear` tool (see [here](https://github.com/rizsotto/Bear), also available on a lot of package repositories like the one from ubuntu) is a good option that intercepts the make commands.
 Once the `compilation_database.json` appears at the build directory, simply feed it with the `-p` option.
-The second problem needs the path of `/usr/lib/clang/$(VERSION)/include/` to be added to the compilation parameters, where `$(VERSION)` is 8.x or 9.x in our case.
+The second problem needs the path of `/usr/lib/clang/${VERSION}/include/` to be added to the compilation parameters, where `${VERSION}` is 8.x or 9.x in our case.
 
 Summing up the previous two problems, we need to build `SlowCoach` like:
 ```bash
-cd $(PWD)/SlowCoach_build
+cd ${PWD}/SlowCoach_build
 cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=True ../SlowCoach && make
 ```
 And run it:
 ```bash
-./SlowCoach --extra-arg='-I/usr/lib/clang/$(VERSION)/include/' \
+./SlowCoach --extra-arg='-I/usr/lib/clang/${VERSION}/include/' \
 -p ./compilation_database.json ../SlowCoach/main.cpp
 ```
 
@@ -112,14 +112,14 @@ Once all needed software are installed, the first step is to get the source code
 git clone https://github.com/xiaoming-chen-zuishuai/SlowCoach
 git clone https://github.com/llvm/llvm-project
 ```
-Assume the current working direcotry where `SlowCoach` and `llvm-projct` source code dwell is `$(PWD)` (substituting this with the real path).
+Assume the current working direcotry where `SlowCoach` and `llvm-projct` source code dwell is `${PWD}` (substituting this with the real path).
 First step is to build a working `llvm`/`clang` toolchain.
 Currently `SlowCoach` is only tested on `clang 8.0` and `clang 9.0`.
 So please make sure the git branch is reset to the tag of 8.x or 9.x release (the version matters here due to contantly changing `clang` internal programming interfaces).
 The [official manual](https://clang.llvm.org/get_started.html) of `llvm`/`clang` provides an authentic guide on the building process.
 Like other `cmake` projects, `SlowCoach` also prefers out-of-tree building:
 ```bash
-cd $(PWD) && mkdir SlowCoach_build
+cd ${PWD} && mkdir SlowCoach_build
 cd ./SlowCoach_build
 cmake ../SlowCoach && make
 ```
